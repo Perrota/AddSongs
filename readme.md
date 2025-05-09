@@ -15,4 +15,4 @@ The program only has one optional argument: Type '-v' if you want the console to
 # System
 Tested on Windows 11. Should also work on Windows 10. Not sure about older versions of Windows. Will most likely not work on other OS.
 
-The libraries used include glob, sys, time, mutagen, os, pyautogui, datetime and logging
+The libraries used include glob, argparse, time, mutagen, os, pyautogui, datetime and logging.
