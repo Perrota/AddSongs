@@ -22,16 +22,8 @@ class MP3Transformer():
             mp3File['albumartist'] = 'Otros'
             mp3File['genre'] = 'Other'
             
-            self.logger.info("Attempting to remove date and tracknumber.")
-            try:
-                mp3File.pop('date')
-            except:
-                self.logger.info("Failed to remove date.")
-
-            try:
-                mp3File.pop('tracknumber')
-            except:
-                self.logger.info("Failed to remove tracknumber.")
+            self.remove_attribute(mp3File, 'date')
+            self.remove_attribute(mp3File, 'tracknumber')
 
             self.logger.info("Saving file.")
             mp3File.save()
@@ -40,9 +32,19 @@ class MP3Transformer():
             audio = MP3(mp3f, ID3=ID3)
             
             # Add new
+            self.logger.info("Deleting old cover art.")
+            audio.tags.delall("APIC")
             self.logger.info("Adding new cover art.")
             with open(cover_art_path, "rb") as art:
                 apic = APIC(data=art.read(), type=PictureType.COVER_FRONT, desc='Cover', mime="img/jpeg")
                 audio['APIC:'] = apic
 
             audio.save()
+    
+    def remove_attribute(self, mp3, attribute_name):
+        self.logger.info(f"Attempting to remove {attribute_name}.")
+        try:
+            mp3.pop(attribute_name)
+        except Exception as e:
+            self.logger.error(e)
+            self.logger.info(f"Failed to remove {attribute_name}.")

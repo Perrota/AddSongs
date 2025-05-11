@@ -37,6 +37,7 @@ if __name__ == "__main__":
 
     # Logging set-up according to arguments
     logger = logging.getLogger(__name__)
+    logging_level = 0
     if args.verbose:
         logging_level = logging.DEBUG
         logging.basicConfig(level=logging_level)

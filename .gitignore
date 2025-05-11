@@ -18,6 +18,7 @@
 
 ### VisualStudioCode ###
 .vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -60,5 +61,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+__pycache__/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,git
