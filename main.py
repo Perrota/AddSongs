@@ -2,10 +2,10 @@ import glob
 import os
 import logging
 import argparse
-from programs import AirDroid
 from mp3_util import MP3Transformer
+from ftplib import FTP
 
-def move_files(mp3s: list, destination_folder_path: str):
+def move_files(mp3s: list, destination_folder_path: str) -> None:
 
     new_file_paths = []
     logger.info(f"Attempting to move {len(mp3s)} file(s).")
@@ -16,6 +16,18 @@ def move_files(mp3s: list, destination_folder_path: str):
         new_file_paths.append(new_file_name)
         
     return new_file_paths
+
+def send_to_phone(url:str, port:str, list_of_files) -> None:
+
+    ftp = FTP()
+    ftp.connect(url, int(port))
+    ftp.login('android', 'android')
+
+    for file in list_of_files:
+        with open(file, 'rb') as f:
+            ftp.storbinary(f'STOR Music/{os.path.basename(file)}', f)
+    
+    quit()
 
 if __name__ == "__main__":
 
@@ -49,5 +61,6 @@ if __name__ == "__main__":
     
     # Move files to folder locally and to phone
     new_file_paths = move_files(list_of_mp3s, destination_folder_path)
-    air_droid = AirDroid(logging_level)
-    air_droid.send_to_phone(new_file_paths)
+    url = input("Please start your FTP server and enter your IP: ")
+    port = input("Please specify the opened port for your FTP server: ")
+    send_to_phone(url, port, new_file_paths)
