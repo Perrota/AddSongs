@@ -1,18 +1,18 @@
 import glob
-import os
+from pathlib import Path
 import logging
 import argparse
 from mp3_util import MP3Transformer
 from ftplib import FTP
 
-def move_files(mp3s: list, destination_folder_path: str) -> None:
+def move_files(mp3s: list, destination_folder_path: str) -> list:
 
     new_file_paths = []
     logger.info(f"Attempting to move {len(mp3s)} file(s).")
     for mp3f in mp3s:
-        new_file_name = os.path.join(destination_folder_path, os.path.basename(mp3f))
+        new_file_name = Path(destination_folder_path) / Path(mp3f).name
         logger.info(f"Moving file to destination: {new_file_name}")
-        os.rename(mp3f, new_file_name)
+        Path(mp3f).rename(new_file_name)
         new_file_paths.append(new_file_name)
         
     return new_file_paths
@@ -24,20 +24,18 @@ def send_to_phone(url:str, port:str, list_of_files) -> None:
     ftp.login('android', 'android')
 
     for file in list_of_files:
+        logger.info(f"Sending {file}")
         with open(file, 'rb') as f:
-            ftp.storbinary(f'STOR Music/{os.path.basename(file)}', f)
+            ftp.storbinary(f'STOR Music/{Path(file).name}', f)
     
     quit()
 
 if __name__ == "__main__":
 
-    # Environ default name
-    user_profile = os.environ.get("USERPROFILE")
-
     # Variables
-    downloads_folder_path = os.path.join(user_profile, 'Downloads')
-    destination_folder_path = os.path.join(user_profile, 'Music', 'Canciones', 'Otros')
-    cover_art_path = os.path.join(user_profile, 'Pictures', 'Imagenes', 'Varias', 'Others.png')
+    downloads_folder_path = Path.home() / 'Downloads'
+    destination_folder_path = Path.home() / 'Music' / 'Canciones' / 'Otros'
+    cover_art_path = Path.home() / 'Pictures' / 'Imagenes' / 'Varias' / 'Others.png'
     
     # Arguments
     parser = argparse.ArgumentParser(
@@ -57,10 +55,10 @@ if __name__ == "__main__":
     # MP3 Changer
     list_of_mp3s = glob.glob(rf'{downloads_folder_path}\*.mp3')
     mp3_transformer = MP3Transformer(list_of_mp3s, logging_level)
-    mp3_transformer.change_attributes(cover_art_path)
+    mp3_transformer.change_attributes(str(cover_art_path))
     
     # Move files to folder locally and to phone
-    new_file_paths = move_files(list_of_mp3s, destination_folder_path)
+    new_file_paths = move_files(list_of_mp3s, str(destination_folder_path))
     url = input("Please start your FTP server and enter your IP: ")
     port = input("Please specify the opened port for your FTP server: ")
     send_to_phone(url, port, new_file_paths)
