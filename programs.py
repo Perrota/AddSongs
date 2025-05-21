@@ -28,7 +28,7 @@ class AirDroid():
             try:
                 pya.locateOnScreen(connected_indicator, grayscale=False)
                 
-            except:
+            except Exception:
                 if datetime.now() > function_start + timedelta(seconds=40):
                     self.logger.info("Connection not stablished.")
                     return "timeout"

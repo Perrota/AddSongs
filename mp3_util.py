@@ -33,7 +33,7 @@ class MP3Transformer():
             
             # Add new
             self.logger.info("Deleting old cover art.")
-            if not audio.tags is None:
+            if audio.tags is not None:
                 audio.tags.delall("APIC")
             self.logger.info("Adding new cover art.")
             with open(cover_art_path, "rb") as art:
