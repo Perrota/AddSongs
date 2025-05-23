@@ -1,9 +1,11 @@
-import glob
-from pathlib import Path
-import logging
 import argparse
-from mp3_util import MP3Transformer
+import glob
+import logging
 from ftplib import FTP
+from pathlib import Path
+
+from mp3_util import MP3Transformer
+
 
 def move_files(mp3s: list, destination_folder_path: str) -> list:
 

@@ -1,8 +1,10 @@
 import logging
-from mutagen.mp3 import MP3
-from mutagen.easyid3 import EasyID3
-from mutagen.id3 import ID3, APIC, PictureType # type: ignore
 import os
+
+from mutagen.easyid3 import EasyID3
+from mutagen.id3 import APIC, ID3, PictureType  # type: ignore
+from mutagen.mp3 import MP3
+
 
 class MP3Transformer():
 
