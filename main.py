@@ -1,9 +1,11 @@
-import glob
-from pathlib import Path
-import logging
 import argparse
-from programs import AirDroid
+import glob
+import logging
+from pathlib import Path
+
 from mp3_util import MP3Transformer
+from programs import AirDroid
+
 
 def move_files(mp3s: list, destination_folder_path: str):
 
