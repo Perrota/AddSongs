@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
     # MP3 Changer
     list_of_mp3s = list(downloads_folder_path.glob("*.mp3"))
-    mp3_transformer = MP3Transformer(list_of_mp3s, logging_level)
+    mp3_transformer = MP3Transformer(list_of_mp3s)
     mp3_transformer.change_attributes(str(cover_art_path))
     
     # Move files to folder locally and to phone

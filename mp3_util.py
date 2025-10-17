@@ -6,13 +6,11 @@ from mutagen.id3 import APIC, ID3, PictureType  # type: ignore
 from mutagen.mp3 import MP3
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.WARNING)
 
 class MP3Transformer():
 
-    def __init__(self, list_of_mp3s: list[Path], logger_level: int = 0) -> None:
+    def __init__(self, list_of_mp3s: list[Path]) -> None:
         self.list_of_mp3s = list_of_mp3s
-        logging.basicConfig(level=logger_level)
 
     def change_attributes(self, cover_art_path: str) -> None:
 
